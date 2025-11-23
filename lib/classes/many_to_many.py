@@ -5,9 +5,14 @@ class Article:
         self.title = title
         
 class Author:
+    # this is our blueprint for author
     def __init__(self, name):
-        self.name = name
-
+        self._name = name 
+    @property
+    def name(self):
+        if isinstance(name , str) or len(name) == 0:    
+            return self._name
+    
     def articles(self):
         pass
 
