@@ -6,13 +6,18 @@ class Article:
         
 class Author:
     # this is our blueprint for author
+    #validation should occur where initialization occur
+    # this is to ensure that a valid name is passed o initializes
     def __init__(self, name):
-        self._name = name 
+        if not isinstance(name , str) or len(name) == 0:
+            raise AssertionError
+        else:
+            self._name = name
     @property
     def name(self):
-        if isinstance(name , str) or len(name) == 0:    
-            return self._name
-    
+        return self._name
+# this means that name will only be read only and cannot be set
+
     def articles(self):
         pass
 
