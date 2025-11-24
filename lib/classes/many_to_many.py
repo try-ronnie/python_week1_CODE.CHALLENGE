@@ -2,7 +2,12 @@ class Article:
     def __init__(self, author, magazine, title):
         self.author = author
         self.magazine = magazine
-        self.title = title
+        self._title = title
+
+    @property
+    def title (self):
+        return self._title
+    
         
 class Author:
     # this is our blueprint for author
@@ -32,9 +37,31 @@ class Author:
 
 class Magazine:
     def __init__(self, name, category):
-        self.name = name
-        self.category = category
+        self._name = name
+        self._category = category
+# we use isinstance over type since it allows us to identify if the value given is a string and instance of the given category
+#note that when we use user.name = "kamau" we are modifying the attribute on thtat instance not on the class  ......... hence it is automatically an instance .... 
+#type wouldnt allow us to check the child of a given parent... in this sense ..... it only matches  if the object is that exact type .... 
 
+
+    @property
+    def name (self):
+        return self._name
+    @property
+    def category (self):
+        return self._category 
+    @name.setter
+    def name (self, value):
+        if isinstance(value , str) and 2 < len(value) < 16:
+            self._name = value
+        else:
+            raise AssertionError('name must be a string between 3 and 15 characters')
+    @category.setter
+    def category (self , value):
+            if isinstance(value , str) and len(value) > 0:
+                self._category = value
+            else:
+                raise AssertionError("category must be have a number of characters above zero")
     def articles(self):
         pass
 
@@ -46,3 +73,6 @@ class Magazine:
 
     def contributing_authors(self):
         pass
+
+mag = Magazine('Techtimes ' , 'tecknolojia')
+print(mag.name)
