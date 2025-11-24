@@ -1,12 +1,14 @@
+
 class Article:
     def __init__(self, author, magazine, title):
         self.author = author
         self.magazine = magazine
-        if isinstance(title , str) and 5< len(title) < 50:
-            self._title = title
-        else:
-            raise ValueError('the title has to be a string that contains a minimum of 5 characrers and a maximum of 50')
-
+        if not hasattr(self , '_title'):
+            if isinstance(title , str) and 5<= len(title) <= 50:
+                self._title = title
+            else:
+                raise ValueError('this is either not a string or does not meet the requirementof the character legth')
+#then since article property titile is not allowed to change 
     @property
     def title (self):
         return self._title
@@ -15,12 +17,14 @@ class Article:
 class Author:
     # this is our blueprint for author
     #validation should occur where initialization occur
-    # this is to ensure that a valid name is passed o initializes
+    # this is to ensure that a valid name is passed initializes
+    # but then i realised that hasattr is practicaly useless since we wount reinitialize the object
     def __init__(self, name):
-        if not isinstance(name , str) or len(name) == 0:
-            raise AssertionError
-        else:
-            self._name = name
+        if not hasattr(self , "_name"):
+            if not isinstance(name , str) or len(name) == 0:
+                raise AssertionError
+            else:
+                self._name = name
     @property
     def name(self):
         return self._name
@@ -54,7 +58,7 @@ class Magazine:
         return self._category 
     @name.setter
     def name (self, value):
-        if isinstance(value , str) and 2 < len(value) < 16:
+        if isinstance(value , str) and 2 <= len(value) <= 16:
             self._name = value
         else:
             raise AssertionError('name must be a string between 3 and 15 characters')
