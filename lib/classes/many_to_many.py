@@ -1,18 +1,29 @@
 
 class Article:
     def __init__(self, author, magazine, title):
-        self.author = author
-        self.magazine = magazine
+
+        if isinstance(author , Article):
+            self._author = author
+        else:
+            raise ValueError('needs to be an instance of article')
+        
+        if isinstance(magazine , Article):
+            self._magazine = magazine
+        else:
+            raise ValueError('needs tp be an instance of article ')
         if not hasattr(self , '_title'):
             if isinstance(title , str) and 5<= len(title) <= 50:
                 self._title = title
             else:
                 raise ValueError('this is either not a string or does not meet the requirementof the character legth')
-#then since article property titile is not allowed to change 
+#then since article property title is not allowed to change we write a setter
     @property
     def title (self):
         return self._title
-    
+    @property
+    def author (self):
+        return self._author
+
         
 class Author:
     # this is our blueprint for author
@@ -47,7 +58,7 @@ class Magazine:
         self._name = name
         self._category = category
 # we use isinstance over type since it allows us to identify if the value given is a string and instance of the given category
-#note that when we use user.name = "kamau" we are modifying the attribute on thtat instance not on the class  ......... hence it is automatically an instance .... 
+#note that when we use user.name = "kamau" we are modifying the attribute on that instance not on the class  ......... hence it is automatically an instance .... 
 #type wouldnt allow us to check the child of a given parent... in this sense ..... it only matches  if the object is that exact type .... 
 
     @property
