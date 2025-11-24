@@ -2,7 +2,10 @@ class Article:
     def __init__(self, author, magazine, title):
         self.author = author
         self.magazine = magazine
-        self._title = title
+        if isinstance(title , str) and 5< len(title) < 50:
+            self._title = title
+        else:
+            raise ValueError('the title has to be a string that contains a minimum of 5 characrers and a maximum of 50')
 
     @property
     def title (self):
@@ -42,7 +45,6 @@ class Magazine:
 # we use isinstance over type since it allows us to identify if the value given is a string and instance of the given category
 #note that when we use user.name = "kamau" we are modifying the attribute on thtat instance not on the class  ......... hence it is automatically an instance .... 
 #type wouldnt allow us to check the child of a given parent... in this sense ..... it only matches  if the object is that exact type .... 
-
 
     @property
     def name (self):
