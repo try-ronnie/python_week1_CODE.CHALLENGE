@@ -23,6 +23,11 @@ class Article:
     @property
     def author (self):
         return self._author
+# the setter btw allows for us to change the value of the author attribute being passed when the property is run ..... article.author (this runs the property that returns the value of the author given at initialization )
+    @author.setter
+    def author (self , value):
+        self._author = value
+
 
         
 class Author:
