@@ -1,35 +1,53 @@
 
 class Article:
+    all = []
+    #first we need to define a class level list 
     def __init__(self, author, magazine, title):
+        #this relies on the objects of the magazine and author
+        #inorder to get the authors articles we need a list of all the articles written
+        #
 
-        if isinstance(author , Article):
+        if isinstance(author , Author):
             self._author = author
         else:
             raise ValueError('needs to be an instance of article')
         
-        if isinstance(magazine , Article):
+        if isinstance(magazine , Magazine):
             self._magazine = magazine
         else:
             raise ValueError('needs tp be an instance of article ')
-        if not hasattr(self , '_title'):
-            if isinstance(title , str) and 5<= len(title) <= 50:
-                self._title = title
-            else:
-                raise ValueError('this is either not a string or does not meet the requirementof the character legth')
+        if isinstance(title , str) and 5<= len(title) <= 50:
+            self._title = title
+        else:
+            raise ValueError('this is either not a string or does not meet the requirementof the character legth')
+        Article.all.append(self)
+        #in article.all(the list we created)note that this is at instance level
+        
 #then since article property title is not allowed to change we write a setter
+#property title is not allowed to change hence requires only a getter
+    
     @property
     def title (self):
         return self._title
+#author property is required to change after initialization
     @property
     def author (self):
         return self._author
-# the setter btw allows for us to change the value of the author attribute being passed when the property is run ..... article.author (this runs the property that returns the value of the author given at initialization )
+
     @author.setter
     def author (self , value):
         self._author = value
 
 
-        
+#magazine property is required to change after setter
+    @property
+    def magazine(self):
+        return self._magazine
+    @magazine.setter
+    def magazine (self , value):
+        self._magazine = value
+
+
 class Author:
     # this is our blueprint for author
     #validation should occur where initialization occur
@@ -38,16 +56,19 @@ class Author:
     def __init__(self, name):
         if not hasattr(self , "_name"):
             if not isinstance(name , str) or len(name) == 0:
-                raise AssertionError
+                raise ValueError
             else:
                 self._name = name
+        else:
+            raise ValueError('value error')
     @property
     def name(self):
         return self._name
 # this means that name will only be read only and cannot be set
 
     def articles(self):
-        pass
+        if isinstance(Article , str):
+            .append()
 
     def magazines(self):
         pass
@@ -98,3 +119,9 @@ class Magazine:
 
 mag = Magazine('Techtimes ' , 'tecknolojia')
 print(mag.name)
+
+
+# (line 26) the setter btw allows for us to change the value of the author attribute being passed when the property is run ..... article1.author (this runs the property that returns the value of the author given at initialization ) 
+#so when you do article1.author = "" we run the setter function istead of the getter since we pass in a value so the setter is the one that expects a passed value for it to run 
+#one thing to note is that in this progra, ..... article need the instances of author magazine to work .... meaning that 
+#article() expects the instance object from author and maagazine in is initialization according to how the code is written
