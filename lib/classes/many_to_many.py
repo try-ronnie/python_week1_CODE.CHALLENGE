@@ -5,7 +5,7 @@ class Article:
     def __init__(self, author, magazine, title):
         #this relies on the objects of the magazine and author
         #inorder to get the authors articles we need a list of all the articles written
-        #
+
 
         if isinstance(author , Author):
             self._author = author
@@ -21,8 +21,9 @@ class Article:
         else:
             raise ValueError('this is either not a string or does not meet the requirementof the character legth')
         Article.all.append(self)
-        #in article.all(the list we created)note that this is at instance level
-        
+
+        #in article.all(the list we created)note that this is at instance level ... so we choose the
+
 #then since article property title is not allowed to change we write a setter
 #property title is not allowed to change hence requires only a getter
     
@@ -54,35 +55,47 @@ class Author:
     # this is to ensure that a valid name is passed initializes
     # but then i realised that hasattr is practicaly useless since we wount reinitialize the object
     def __init__(self, name):
-        if not hasattr(self , "_name"):
             if not isinstance(name , str) or len(name) == 0:
                 raise ValueError
             else:
                 self._name = name
-        else:
-            raise ValueError('value error')
+            
     @property
     def name(self):
         return self._name
 # this means that name will only be read only and cannot be set
 
     def articles(self):
-        if isinstance(Article , str):
-            .append()
+        return [article for article in Article.all if article.author == self]
+    # since we are in the author cass ... running this will open the list of articles .... and access the values of author(author.)
+    #since we are calling it upon a saved instance of Author 
+    #we it then checks the list of articles as it checks whether the article is from the instance of our author 
+
+    
+            
 
     def magazines(self):
-        pass
-
-    def add_article(self, magazine, title):
-        pass
+        return list({article.magazine  for article in self.articles()})
+        #since there is no list of the magazines created we access the value of article.magazine that returns all the magazine for that specific article
+        #we put this logic in a set to remove duplicates
+        #then we convert it to a list since we need to return a list of magazines
+        # the article.magazine means the magazine for thi instance?>>>
 
     def topic_areas(self):
-        pass
+        return list({mag.category for mag in self.magazines })
+    def add_article(self, magazine, title):
+        Article(self ,magazine , title)
+        # this is just a method that helps us come up with an article instance
+
 
 class Magazine:
+    all
     def __init__(self, name, category):
-        self._name = name
-        self._category = category
+        if isinstance(name, str) and 2 <= len(name) <= 16:
+            self._name = name
+        raise ValueError('name ,ust be a string of 2-16 characters')
+        if isinstance(name , str) or len(category) > 0:
+            self._category = category
 # we use isinstance over type since it allows us to identify if the value given is a string and instance of the given category
 #note that when we use user.name = "kamau" we are modifying the attribute on that instance not on the class  ......... hence it is automatically an instance .... 
 #type wouldnt allow us to check the child of a given parent... in this sense ..... it only matches  if the object is that exact type .... 
