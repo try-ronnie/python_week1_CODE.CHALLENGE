@@ -10,12 +10,12 @@ class Article:
         if isinstance(author , Author):
             self._author = author
         else:
-            raise ValueError('needs to be an instance of article')
+            raise ValueError('needs to be an instance of Author to pass')
         
         if isinstance(magazine , Magazine):
             self._magazine = magazine
         else:
-            raise ValueError('needs tp be an instance of article ')
+            raise ValueError('needs tp be an instance of magazine to pass ')
         if isinstance(title , str) and 5<= len(title) <= 50:
             self._title = title
         else:
@@ -82,20 +82,21 @@ class Author:
         # the article.magazine means the magazine for thi instance?>>>
 
     def topic_areas(self):
-        return list({mag.category for mag in self.magazines })
+        return list({mag.category for mag in self.magazines()})
     def add_article(self, magazine, title):
         Article(self ,magazine , title)
         # this is just a method that helps us come up with an article instance
 
 
 class Magazine:
-    all
+    all = []
     def __init__(self, name, category):
-        if isinstance(name, str) and 2 <= len(name) <= 16:
-            self._name = name
-        raise ValueError('name ,ust be a string of 2-16 characters')
-        if isinstance(name , str) or len(category) > 0:
-            self._category = category
+        if not isinstance(name, str) or 2 <= len(name) <= 16:
+            raise ValueError('name ,ust be a string of 2-16 characters')
+        self._name = name
+        if not isinstance(category , str) or len(category) > 0: 
+            raise ValueError('category has to be a str and of atleast 0 + characters')
+        self._category = category 
 # we use isinstance over type since it allows us to identify if the value given is a string and instance of the given category
 #note that when we use user.name = "kamau" we are modifying the attribute on that instance not on the class  ......... hence it is automatically an instance .... 
 #type wouldnt allow us to check the child of a given parent... in this sense ..... it only matches  if the object is that exact type .... 
@@ -108,7 +109,7 @@ class Magazine:
         return self._category 
     @name.setter
     def name (self, value):
-        if isinstance(value , str) and 2 <= len(value) <= 16:
+        if isinstance(value , str) or 2 <= len(value) <= 16:
             self._name = value
         else:
             raise AssertionError('name must be a string between 3 and 15 characters')
@@ -119,19 +120,21 @@ class Magazine:
             else:
                 raise AssertionError("category must be have a number of characters above zero")
     def articles(self):
-        pass
+        return [article for article in Article.all if article.magazine == self]
 
     def contributors(self):
-        pass
+        return list({article.author for article in self.articles()})
 
     def article_titles(self):
-        pass
+        return [article.title for article in self.articles()]
 
     def contributing_authors(self):
-        pass
+        authors_count = {}
+        for article in self.articles():
+            authors_count[article.author] = authors_count.get(article.author, 0) + 1
+        return [author for author, count in authors_count.items() if count > 2]
+        
 
-mag = Magazine('Techtimes ' , 'tecknolojia')
-print(mag.name)
 
 
 # (line 26) the setter btw allows for us to change the value of the author attribute being passed when the property is run ..... article1.author (this runs the property that returns the value of the author given at initialization ) 
